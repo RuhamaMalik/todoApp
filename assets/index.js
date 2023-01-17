@@ -58,23 +58,28 @@ const addNewToDo = () => {
     newToDo = document.createElement('li');
     newToDo.textContent = toDoInput.value;
 
+
     createToolAreal();
     //We add our ToDo to the ul list.
     ulList.append(newToDo);
 
-    //czyscimy error jak i input po dodaniu ToDo
     toDoInput.value = '';
     errorInfo.textContent = '';
+    errorInfo.style.border = 'none';
+
   } else {
-    errorInfo.textContent = 'Wpisz treść zadania!';
+    errorInfo.textContent = 'Enter the work content!';
+    errorInfo.style.border = "1px solid rgba(245, 245, 245, 0.3)";
   }
 }
 
 const createToolAreal = () => {
-  //towrzymy elementy (przyciski i dodajemy do toDo)
+
   const div = document.createElement('div');
   div.classList.add('tools');
-  //dodajemy nasze toolsy do nowego toDo
+
+  // Add our tools to the new toDo.
+
   newToDo.append(div);
 
   const buttonDone = document.createElement('button');
@@ -89,29 +94,31 @@ const createToolAreal = () => {
   buttonCancel.classList.add('delete');
   buttonCancel.innerHTML = '<i class="fas fa-trash"></i>'
 
-  //dodajemy elementy do siebie 
+  // Add the elements together.
+
   div.append(buttonDone, buttonEdit, buttonCancel);
 }
 
-//funkcjs sprawdzająca w co klikamy (aby wiedziec czy zakonczyc task czy moze go usunac czy edytowac)
+// function that checks what we clicked (to know whether to end the task, delete it or modify it)
+
 const checkClick = (e) => {
   if (e.target.matches('.complete')) {
-    e.target.closest('li').classList.toggle('completed'); //po nacisnieciu complete do najblizszego elementu li (dziadka) dodajemy klase completed
-    e.target.classList.toggle('completed');
+    e.target.closest('li').classList.toggle('completed');
 
   } else if (e.target.matches('.edit')) {
     editToDo(e);
 
-  } else if (e.target.matches('.delete')) { //else if poniewaz gdybysmy klikneli wszedzie poza delete tez by sie wykonal warunek
+  } else if (e.target.matches('.delete')) {
     deleteToDo(e);
 
   }
 }
 
-//funkcje odpowiedzialne za popup
+// Functions responsible for the popup
+
 const editToDo = (e) => {
-  todoToEdit = e.target.closest('li'); //edytujemy nablizsze li do przycisku (wiadomka B-) )
-  popupInput.value = todoToEdit.firstChild.textContent; //przypisujemy do inputa (edytora) wartosc ktora mielismy w child (tekst) elementu li 
+  todoToEdit = e.target.closest('li'); // modify the li closest to the button (message - B);
+  popupInput.value = todoToEdit.firstChild.textContent; // We assign to input (editor) the value we had in the li element's child (text).
   popup.style.display = 'flex';
 }
 
@@ -120,7 +127,8 @@ const closePopup = () => {
   popupInfo.textContent = '';
 }
 
-//funkcja wprowadzajaca zmiany z inputa do naszego elementu li
+//function to apply changes from input to our li element
+
 const changeTodoText = () => {
   if (popupInput.value != '') {
     todoToEdit.firstChild.textContent = popupInput.value;
@@ -128,26 +136,29 @@ const changeTodoText = () => {
     popup.style.display = 'none';
     popupInfo.textContent = '';
   } else {
-    popupInfo.textContent = 'You have to provide some content!!';
+    popupInfo.textContent = 'You have to provide some content!';
   }
 }
 
 const deleteToDo = (e) => {
-  e.target.closest('li').remove(); //style.display = 'none' jak poczatkowo myslalem tez by zadzialala ale ta better B-)
+  e.target.closest('li').remove();
 
-  //wyswietlamy brak elementow gdy ich nie ma
+  // Show hidden message when there is no element/task in the list.
+
   const allToDos = ulList.querySelectorAll('li');
   if (allToDos.length == 0) {
     errorInfo.textContent = 'There are no tasks in the list'
   }
 }
 
-//wykonujemy też dodanie todo na enterze
+// We also add todo on enter.
+
 const enterKeyCheck = (e) => {
   if (e.key == 'Enter') {
     addNewToDo();
   }
 }
 
-//wykonuje się w przypadku zmiany na stronie
+// Executed when a change occurs on the page.
+
 document.addEventListener('DOMContentLoaded', main);

@@ -96,6 +96,10 @@ h1 {
   .error-info {
     margin-top: 20px;
     color: white;
+    background: transparent;
+    font-family: monospace;
+    padding: 5px;
+    border-radius: 5px;
 
   }
   .main{ 
@@ -320,5 +324,8 @@ h1 {
   .todolist ul li{
 width: 90%;
     
+  }
+  .popup{
+    width: 80%;
   }
   }
